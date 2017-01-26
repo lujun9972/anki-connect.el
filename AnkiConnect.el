@@ -3,6 +3,9 @@
   "URL for AnkiConnect")
 
 (defun AnkiConnect-request (action params)
+  "Commuicate with AnkiConnect.
+
+PARAMS should be an alist"
   (let ((params (json-encode-alist params)))
     (request-response-data
      (request AnkiConnect-URL
@@ -13,27 +16,32 @@
               ))))
 
 (defun AnkiConnect-DeckNames ()
-  "获取牌组列表"
-  (AnkiConnect-request "deckNames" nil))
+  "list decks"
+  (mapcar #'identity (AnkiConnect-request "deckNames" nil)))
 
-(defun AnkiConnect-ModeNames ()
-  "获取卡片类型列表"
-  (AnkiConnect-request "modelNames" nil))
+(defun AnkiConnect-ModelNames ()
+  "list models"
+  (mapcar #'identity (AnkiConnect-request "modelNames" nil)))
 
-(defun AnkiConnect-ModelFieldNames (model-name)
-  "获取某卡片类型中的字段列表"
-  (AnkiConnect-request "modelFieldNames"
-                       `(("modelName" . ,model-name))))
-;; (AnkiConnect-ModelFieldNames "单词本")
+(defun AnkiConnect-ModelFieldNames (model)
+  "list fields in MODOEL"
+  (mapcar #'identity (AnkiConnect-request "modelFieldNames"
+                                          `(("modelName" . ,model)))))
+;; (completing-read nil (cons "" (AnkiConnect-ModelFieldNames "单词本")))
 
-(defun AnkiConnect-AddNote (deck-name model-name field-alist)
-  "添加卡片"
+(defun AnkiConnect-AddNote (deck model field-alist)
+  "add a note to DECK
+
+MODEL specify the format of the note.
+FIELD-ALIST specify the content of the note."
   (AnkiConnect-request "addNote"
-                       `(("note" . (("deckName" . ,deck-name)
-                                    ("modelName" . ,model-name)
+                       `(("note" . (("deckName" . ,deck)
+                                    ("modelName" . ,model)
                                     ("fields" . ,field-alist)
                                     ("tags" . []))))))
 
 ;; (AnkiConnect-AddNote "我的生词本" "单词本"
 ;;                      '(("拼写" . "Emacs")
 ;;                       ("意义" . "测试AnkiConnect")))
+
+(provide 'AnkiConnect)
