@@ -17,16 +17,17 @@ PARAMS should be an alist"
 
 (defun AnkiConnect-DeckNames ()
   "list decks"
-  (mapcar #'identity (AnkiConnect-request "deckNames" nil)))
+  (append (AnkiConnect-request "deckNames" nil) nil))
 
 (defun AnkiConnect-ModelNames ()
   "list models"
-  (mapcar #'identity (AnkiConnect-request "modelNames" nil)))
+  (append  (AnkiConnect-request "modelNames" nil) nil))
 
 (defun AnkiConnect-ModelFieldNames (model)
   "list fields in MODOEL"
-  (mapcar #'identity (AnkiConnect-request "modelFieldNames"
-                                          `(("modelName" . ,model)))))
+  (append (AnkiConnect-request "modelFieldNames"
+                               `(("modelName" . ,model)))
+          nil))
 ;; (completing-read nil (cons "" (AnkiConnect-ModelFieldNames "单词本")))
 
 (defun AnkiConnect-AddNote (deck model field-alist)
