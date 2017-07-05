@@ -16,22 +16,22 @@ PARAMS should be an alist"
               ))))
 
 (defun AnkiConnect-DeckNames ()
-  "list decks"
+  "List decks"
   (append (AnkiConnect-request "deckNames" nil) nil))
 
 (defun AnkiConnect-ModelNames ()
-  "list models"
+  "List models"
   (append  (AnkiConnect-request "modelNames" nil) nil))
 
 (defun AnkiConnect-ModelFieldNames (model)
-  "list fields in MODOEL"
+  "List fields in MODOEL"
   (append (AnkiConnect-request "modelFieldNames"
                                `(("modelName" . ,model)))
           nil))
 ;; (completing-read nil (cons "" (AnkiConnect-ModelFieldNames "单词本")))
 
 (defun AnkiConnect-AddNote (deck model field-alist)
-  "add a note to DECK
+  "Add a note to DECK
 
 MODEL specify the format of the note.
 FIELD-ALIST specify the content of the note."
