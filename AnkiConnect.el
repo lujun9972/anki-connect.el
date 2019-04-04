@@ -6,14 +6,21 @@
   "Commuicate with AnkiConnect.
 
 PARAMS should be an alist"
-  (let ((params (json-encode-alist params)))
-    (request-response-data
-     (request AnkiConnect-URL
-              :type "POST"
-              :data (format "{\"action\" : %S,\"params\" : %s}" action params)
-              :parser 'json-read
-              :sync t
-              ))))
+  (let* ((data (if params
+                   (json-encode `(("action" . ,action)
+                                  ("version" . 6)
+                                  ("params" . ,params)))
+                 (json-encode `(("action" . ,action)
+                                ("version" . 6)))))
+         (response (request-response-data
+                    (request AnkiConnect-URL
+                             :type "POST"
+                             :data data
+                             :parser 'json-read
+                             :sync t)))
+         (error-p (cdr (assoc 'error response))))
+    (unless error-p
+      (cdr (assoc 'result response)))))
 
 (defun AnkiConnect-DeckNames ()
   "List decks"
@@ -28,7 +35,7 @@ PARAMS should be an alist"
   (append (AnkiConnect-request "modelFieldNames"
                                `(("modelName" . ,model)))
           nil))
-;; (completing-read nil (cons "" (AnkiConnect-ModelFieldNames "单词本")))
+;; (completing-read nil (cons "" (AnkiConnect-ModelFieldNames "Basic")))
 
 (defun AnkiConnect-AddNote (deck model field-alist)
   "Add a note to DECK
