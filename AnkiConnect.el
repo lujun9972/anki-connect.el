@@ -30,7 +30,7 @@
 
 ;;; Commentary:
 
-;; AnkiConnect defined some functions to interactive with AnkiConnect in Anki
+;; AnkiConnect.el defined some functions to interactive with AnkiConnect in Anki
 
 
 ;;; Code:
@@ -91,3 +91,5 @@ AUDIO specify the audio information."
 
 
 (provide 'AnkiConnect)
+
+;;; AnkiConnect.el ends here
