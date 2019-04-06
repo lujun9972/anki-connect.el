@@ -75,16 +75,19 @@ PARAMS should be an alist"
                                `(("modelName" . ,model)))
           nil))
 
-(defun AnkiConnect-AddNote (deck model field-alist)
+(defun AnkiConnect-AddNote (deck model field-alist &optional audio)
   "Add a note to DECK
 
 MODEL specify the format of the note.
-FIELD-ALIST specify the content of the note."
-  (AnkiConnect-request "addNote"
-                       `(("note" . (("deckName" . ,deck)
-                                    ("modelName" . ,model)
-                                    ("fields" . ,field-alist)
-                                    ("tags" . []))))))
+FIELD-ALIST specify the content of the note.
+AUDIO specify the audio information."
+  (let ((note `(("deckName" . ,deck)
+                ("modelName" . ,model)
+                ("fields" . ,field-alist)
+                ("tags" . []))))
+    (when audio
+      (setq note (append note (list audio))))
+    (AnkiConnect-request "addNote" `(("note" . ,note)))))
 
 
 (provide 'AnkiConnect)
