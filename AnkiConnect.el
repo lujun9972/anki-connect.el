@@ -86,7 +86,7 @@ AUDIO specify the audio information."
                 ("fields" . ,field-alist)
                 ("tags" . []))))
     (when audio
-      (setq note (append note (list audio))))
+      (setq note (append note `(("audio" . ,audio)))))
     (AnkiConnect-request "addNote" `(("note" . ,note)))))
 
 
