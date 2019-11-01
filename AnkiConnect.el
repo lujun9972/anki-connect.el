@@ -1,4 +1,4 @@
-;;; AnkiConnect.el --- AnkiConnect Client for Emacs
+;;; AnkiConnect.el --- AnkiConnect API -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019-2019 DarkSun <lujun9972@gmail.com>.
 
@@ -7,6 +7,7 @@
 ;; Package: AnkiConnect
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "24.3"))
+;; URL: http://github.com/lujun9972/AnkiConnect.el
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -37,18 +38,19 @@
 
 (require 'url)
 (defconst AnkiConnect-URL "http://127.0.0.1:8765"
-  "URL for AnkiConnect")
+  "URL for AnkiConnect.")
 
 (defun AnkiConnect-request (action params)
   "Commuicate with AnkiConnect.
 
-PARAMS should be an alist"
+ACTION describe the action.
+PARAMS should be an alist."
   (let* ((request-data (if params
-                               (json-encode `(("action" . ,action)
-                                              ("version" . 6)
-                                              ("params" . ,params)))
-                             (json-encode `(("action" . ,action)
-                                            ("version" . 6)))))
+                           (json-encode `(("action" . ,action)
+                                          ("version" . 6)
+                                          ("params" . ,params)))
+                         (json-encode `(("action" . ,action)
+                                        ("version" . 6)))))
          (url-request-data (encode-coding-string request-data 'utf-8))
          (url-request-method "POST")
          (url-request-extra-headers '(("Content-Type" . "application/json")))
@@ -62,21 +64,21 @@ PARAMS should be an alist"
       (cdr (assoc 'result response)))))
 
 (defun AnkiConnect-DeckNames ()
-  "List decks"
+  "List decks."
   (append (AnkiConnect-request "deckNames" nil) nil))
 
 (defun AnkiConnect-ModelNames ()
-  "List models"
+  "List models."
   (append  (AnkiConnect-request "modelNames" nil) nil))
 
 (defun AnkiConnect-ModelFieldNames (model)
-  "List fields in MODOEL"
+  "List fields in MODEL."
   (append (AnkiConnect-request "modelFieldNames"
                                `(("modelName" . ,model)))
           nil))
 
 (defun AnkiConnect-AddNote (deck model field-alist &optional audio)
-  "Add a note to DECK
+  "Add a note to DECK.
 
 MODEL specify the format of the note.
 FIELD-ALIST specify the content of the note.
