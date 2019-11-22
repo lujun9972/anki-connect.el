@@ -1,13 +1,13 @@
-;;; AnkiConnect.el --- AnkiConnect API -*- lexical-binding: t; -*-
+;;; anki-connect.el --- anki-connect API -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019-2019 DarkSun <lujun9972@gmail.com>.
 
 ;; Author: DarkSun <lujun9972@gmail.com>
 ;; Keywords: lisp, anki
-;; Package: AnkiConnect
+;; Package: anki-connect
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: http://github.com/lujun9972/AnkiConnect.el
+;; URL: http://github.com/lujun9972/anki-connect.el
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -26,22 +26,22 @@
 
 ;;; Source code
 ;;
-;; AnkiConnect's code can be found here:
-;;   http://github.com/lujun9972/AnkiConnect.el
+;; anki-connect's code can be found here:
+;;   http://github.com/lujun9972/anki-connect.el
 
 ;;; Commentary:
 
-;; AnkiConnect.el defined some functions to interactive with AnkiConnect in Anki
+;; anki-connect.el defined some functions to interactive with anki-connect in Anki
 
 
 ;;; Code:
 
 (require 'url)
-(defconst AnkiConnect-URL "http://127.0.0.1:8765"
-  "URL for AnkiConnect.")
+(defconst anki-connect-url "http://127.0.0.1:8765"
+  "URL for anki-connect.")
 
-(defun AnkiConnect-request (action params)
-  "Commuicate with AnkiConnect.
+(defun anki-connect-request (action params)
+  "Commuicate with anki-connect.
 
 ACTION describe the action.
 PARAMS should be an alist."
@@ -54,7 +54,7 @@ PARAMS should be an alist."
          (url-request-data (encode-coding-string request-data 'utf-8))
          (url-request-method "POST")
          (url-request-extra-headers '(("Content-Type" . "application/json")))
-         (retrive-buffer (url-retrieve-synchronously AnkiConnect-URL))
+         (retrive-buffer (url-retrieve-synchronously anki-connect-url))
          (response (with-current-buffer retrive-buffer
                      (goto-char (point-min))
                      (search-forward-regexp "^$")
@@ -63,21 +63,21 @@ PARAMS should be an alist."
     (unless error-p
       (cdr (assoc 'result response)))))
 
-(defun AnkiConnect-DeckNames ()
+(defun anki-connect-deck-names ()
   "List decks."
-  (append (AnkiConnect-request "deckNames" nil) nil))
+  (append (anki-connect-request "deckNames" nil) nil))
 
-(defun AnkiConnect-ModelNames ()
+(defun anki-connect-model-names ()
   "List models."
-  (append  (AnkiConnect-request "modelNames" nil) nil))
+  (append  (anki-connect-request "modelNames" nil) nil))
 
-(defun AnkiConnect-ModelFieldNames (model)
+(defun anki-connect-model-field-names (model)
   "List fields in MODEL."
-  (append (AnkiConnect-request "modelFieldNames"
+  (append (anki-connect-request "modelFieldNames"
                                `(("modelName" . ,model)))
           nil))
 
-(defun AnkiConnect-AddNote (deck model field-alist &optional audio)
+(defun anki-connect-add-note (deck model field-alist &optional audio)
   "Add a note to DECK.
 
 MODEL specify the format of the note.
@@ -89,9 +89,9 @@ AUDIO specify the audio information."
                 ("tags" . []))))
     (when audio
       (setq note (append note `(("audio" . ,audio)))))
-    (AnkiConnect-request "addNote" `(("note" . ,note)))))
+    (anki-connect-request "addNote" `(("note" . ,note)))))
 
 
-(provide 'AnkiConnect)
+(provide 'anki-connect)
 
-;;; AnkiConnect.el ends here
+;;; anki-connect.el ends here
