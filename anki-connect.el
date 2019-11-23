@@ -31,7 +31,7 @@
 
 ;;; Commentary:
 
-;; anki-connect.el defined some functions to interactive with anki-connect in Anki
+;; anki-connect.el defined some functions to interactive with AnkiConnect in Anki
 
 
 ;;; Code:
