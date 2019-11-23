@@ -1,4 +1,4 @@
-;;; anki-connect.el --- anki-connect API -*- lexical-binding: t; -*-
+;;; anki-connect.el --- AnkiConnect API -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019-2019 DarkSun <lujun9972@gmail.com>.
 
@@ -7,7 +7,7 @@
 ;; Package: anki-connect
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: http://github.com/lujun9972/anki-connect.el
+;; URL: https://github.com/lujun9972/anki-connect.el
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -22,12 +22,12 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Source code
 ;;
 ;; anki-connect's code can be found here:
-;;   http://github.com/lujun9972/anki-connect.el
+;;   https://github.com/lujun9972/anki-connect.el
 
 ;;; Commentary:
 
