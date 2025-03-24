@@ -67,6 +67,24 @@ PARAMS should be an alist."
   "List decks."
   (append (anki-connect-request "deckNames" nil) nil))
 
+(defun anki-connect-deck-exists-p (deck-name)
+  "Check if deck exists."
+  (member deck-name (anki-connect-deck-names)))
+
+(defun anki-connect-create-deck (deck-name)
+  "Create deck with hierarchy."
+  (anki-connect-request "createDeck" `(("deckName" . ,deck-name))))
+
+(defun anki-connect-ensure-deck (deck-name)
+  "Create deck hierarchy recursively."
+  (let ((parent "")
+        (parts (s-split "::" deck-name)))
+    (dolist (part parts)
+      (let ((current (if (s-blank? parent) part (concat parent "::" part))))
+        (unless (anki-connect-deck-exists-p current)
+          (anki-connect-create-deck current))
+        (setq parent current)))))
+
 (defun anki-connect-model-names ()
   "List models."
   (append  (anki-connect-request "modelNames" nil) nil))
@@ -74,7 +92,7 @@ PARAMS should be an alist."
 (defun anki-connect-model-field-names (model)
   "List fields in MODEL."
   (append (anki-connect-request "modelFieldNames"
-                               `(("modelName" . ,model)))
+                                `(("modelName" . ,model)))
           nil))
 
 (defun anki-connect-add-note (deck model field-alist &optional audio)
