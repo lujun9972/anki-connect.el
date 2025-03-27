@@ -73,7 +73,7 @@ PARAMS should be an alist."
 
 (defun anki-connect-create-deck (deck-name)
   "Create deck with hierarchy."
-  (anki-connect-request "createDeck" `(("deckName" . ,deck-name))))
+  (anki-connect-request "createDeck" `(("deck" . ,deck-name))))
 
 (defun anki-connect-ensure-deck (deck-name)
   "Create deck hierarchy recursively."
